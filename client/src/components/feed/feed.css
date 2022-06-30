@@ -1,0 +1,18 @@
+.feed{
+    flex:5.5
+}
+
+.feedWrapper{
+    padding: 20px;
+}
+
+.noPostsYet {
+    margin-top: 2rem;
+    padding: 10px;
+    border-radius: 100px;
+    text-align: center;
+    box-shadow:  0 3px 10px 2px rgb(0, 0, 0 , 70%);
+    text-transform: capitalize;
+    color: #ddd;
+    font-size: 1.2rem;
+}

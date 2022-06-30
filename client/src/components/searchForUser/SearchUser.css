@@ -1,0 +1,27 @@
+
+.search a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.infoUserFound {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.search .circleDiv {
+    width: 35px;
+    height: 35px;
+    background-color: teal;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+  }
+
+.search .bio {
+    font-size: 17px;
+    color: #ddd;
+}
