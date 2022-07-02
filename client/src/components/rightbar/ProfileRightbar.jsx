@@ -72,9 +72,7 @@ const ProfileRightbar = ({ user }) => {
         <h4 className="rightbarTitle">User information</h4>
         <span
           style={{ cursor: "pointer" }}
-          onClick={
-            (() => () => setEditProfile(true), () => setUserInfo(currentUser))
-          }
+          onClick={() => (setEditProfile(true), setUserInfo(currentUser))}
         >
           {user.username === currentUser.username && <Edit className="edit" />}
         </span>

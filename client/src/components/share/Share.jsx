@@ -34,8 +34,9 @@ export default function Share() {
       // } catch (err) {
       //   console.log(err.message);
       // }
+    } else if (newPost.desc.length <= 0) {
+      alert("You Can't Share Empty Post !");
     } else {
-      newPost.desc.length <= 0 && alert("You Can't Share Empty Post !");
       try {
         await axios.post(URL_API + "/posts", newPost);
         window.location.reload();
