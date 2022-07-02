@@ -1,5 +1,6 @@
 .profile{
     display: flex;
+    position: relative;
 }
 
 .profileRight{
@@ -57,3 +58,20 @@
     display: flex;
 }
 
+.back-home {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    display: flex;
+    z-index: 100;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-decoration: none;
+}
+
+.back-home .icon {
+    font-size: 1.2rem;
+    margin-right: 4px;
+}

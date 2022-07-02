@@ -10,11 +10,9 @@ import {
   Event,
   School,
 } from "@material-ui/icons";
-import { AuthContext } from "../../context/AuthContext";
-import { useContext } from "react";
+
 //
 export default function Sidebar() {
-  const { user } = useContext(AuthContext);
   return (
     <div className="sidebar">
       <div className="sidebarWrapper">

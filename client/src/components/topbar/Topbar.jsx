@@ -27,7 +27,12 @@ export default function Topbar() {
       </div>
       <div className="topbarRight">
         <div className="topbarLinks">
-          <span className="topbarLink">Homepage</span>
+          <span
+            className="topbarLink"
+            onClick={() => (localStorage.clear(), window.location.reload())}
+          >
+            Logout
+          </span>
           <span className="topbarLink">Timeline</span>
         </div>
         <div className="topbarIcons">

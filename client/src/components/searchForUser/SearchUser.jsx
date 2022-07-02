@@ -6,15 +6,14 @@ import { AuthContext } from "../../context/AuthContext";
 
 //
 export const SearchUser = () => {
-  const PF = process.env.REACT_APP_PUBLIC_FOLDER;
-  const { searchUser, setSearchUser } = useContext(AuthContext);
+  const { searchUser, setSearchUser, URL_API } = useContext(AuthContext);
   const [userFound, setUserFound] = useState(null);
 
   useEffect(() => {
     const serachinUser = async () => {
       if (searchUser !== null) {
         const res = await axios.get(
-          `/users?username=${searchUser.toLowerCase()}`
+          `${URL_API}/users?username=${searchUser.toLowerCase()}`
         );
         setUserFound(res.data);
       }

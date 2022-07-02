@@ -12,7 +12,7 @@ export default function Post({ post, setPosts, posts }) {
   const [isLiked, setIsLiked] = useState(false);
   const [user, setUser] = useState({});
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
-  const { user: currentUser } = useContext(AuthContext);
+  const { user: currentUser, URL_API } = useContext(AuthContext);
 
   useEffect(() => {
     setIsLiked(post.likes.includes(currentUser._id));
@@ -20,7 +20,7 @@ export default function Post({ post, setPosts, posts }) {
 
   useEffect(() => {
     const fetchUser = async () => {
-      const res = await axios.get(`/users?userId=${post.userId}`);
+      const res = await axios.get(`${URL_API}/users?userId=${post.userId}`);
       setUser(res.data);
     };
     fetchUser();
@@ -28,7 +28,9 @@ export default function Post({ post, setPosts, posts }) {
 
   const likeHandler = () => {
     try {
-      axios.put("/posts/" + post._id + "/like", { userId: currentUser._id });
+      axios.put(URL_API + "/posts/" + post._id + "/like", {
+        userId: currentUser._id,
+      });
     } catch (err) {}
     setLike(isLiked ? like - 1 : like + 1);
     setIsLiked(!isLiked);
@@ -36,7 +38,7 @@ export default function Post({ post, setPosts, posts }) {
   //
   const deletePost = async (userId) => {
     try {
-      await axios.delete("/posts/" + post._id, {
+      await axios.delete(URL_API + "/posts/" + post._id, {
         data: { userId: userId },
       });
       const filter = posts.filter((p) => p._id !== post._id);
@@ -49,7 +51,7 @@ export default function Post({ post, setPosts, posts }) {
   return (
     <div className="post">
       <div className="postWrapper">
-        {posts.length == 0 ? (
+        {posts.length === 0 ? (
           <span>No Posts Yet</span>
         ) : (
           <React.Fragment>

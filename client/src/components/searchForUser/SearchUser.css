@@ -1,4 +1,9 @@
 
+.search {
+    box-shadow:  0 3px 10px 2px rgb(0, 0, 0 , 40%);
+    padding: 1rem;
+
+}
 .search a {
     text-decoration: none;
     color: inherit;

@@ -6,7 +6,6 @@ import ComponentsFeed from "./ComponentsFeed";
 
 export default function Feed({ username }) {
   const { searchUser } = useContext(AuthContext);
-
   return (
     <div className="feed">
       <div className="feedWrapper">

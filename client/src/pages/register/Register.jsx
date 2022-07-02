@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 
 export default function Register() {
-  const { setEditProfile, editProfile, userInfo, setUserInfo, user } =
+  const { setEditProfile, editProfile, userInfo, setUserInfo, user, URL_API } =
     useContext(AuthContext);
 
   const handleChange = (e) => {
@@ -17,7 +17,7 @@ export default function Register() {
     e.preventDefault();
     try {
       if (editProfile) {
-        const res = await axios.put("/users/" + user._id, {
+        const res = await axios.put(URL_API + "/users/" + user._id, {
           ...userInfo,
           userId: user._id,
         });
@@ -26,7 +26,7 @@ export default function Register() {
         localStorage.setItem("user", JSON.stringify(res.data));
         window.location.reload();
       } else {
-        await axios.post("/auth/register", userInfo);
+        await axios.post(URL_API + "/auth/register", userInfo);
         history.push("/login");
       }
     } catch (err) {

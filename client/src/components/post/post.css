@@ -76,3 +76,14 @@
     border-bottom: 1px dashed gray;
     font-size: 15px;
 }
+
+.circleDiv {
+  width: 35px;
+  height: 35px;
+  background-color: teal;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}

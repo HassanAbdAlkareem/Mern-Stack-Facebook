@@ -11,7 +11,7 @@ import { AuthContext } from "../../context/AuthContext";
 import axios from "axios";
 
 export default function Share() {
-  const { user } = useContext(AuthContext);
+  const { user, URL_API } = useContext(AuthContext);
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
   const desc = useRef();
   const [file, setFile] = useState(null);
@@ -23,27 +23,26 @@ export default function Share() {
       desc: desc.current.value,
     };
     if (file) {
-      const data = new FormData();
-      const fileName = Date.now() + file.name;
-      data.append("name", fileName);
-      data.append("file", file);
-      newPost.img = fileName;
-      console.log(newPost);
+      // const data = new FormData();
+      // const fileName = Date.now() + file.name;
+      // data.append("name", fileName);
+      // data.append("file", file);
+      // newPost.img = fileName;
+      // console.log(newPost);
+      // try {
+      //   await axios.post("/upload", data);
+      // } catch (err) {
+      //   console.log(err.message);
+      // }
+    } else {
+      newPost.desc.length <= 0 && alert("You Can't Share Empty Post !");
       try {
-        await axios.post("/upload", data);
+        await axios.post(URL_API + "/posts", newPost);
+        window.location.reload();
       } catch (err) {
         console.log(err.message);
       }
     }
-    try {
-      console.log(newPost.desc.length);
-      if (newPost.desc.length <= 0) {
-        alert("You Can't Share Empty Post !");
-      } else {
-        await axios.post("/posts", newPost);
-        window.location.reload();
-      }
-    } catch (err) {}
   };
 
   return (
@@ -66,12 +65,19 @@ export default function Share() {
         )}
         <form className="shareBottom" onSubmit={submitHandler}>
           <div className="shareOptions">
-            <label htmlFor="file" className="shareOption">
+            <label
+              htmlFor="file"
+              onClick={() =>
+                alert(
+                  "this is free hosting not support upload images you can share just description"
+                )
+              }
+              className="shareOption"
+            >
               <PermMedia htmlColor="tomato" className="shareIcon" />
               <span className="shareOptionText">Photo</span>
               <input
                 style={{ display: "none" }}
-                type="file"
                 id="file"
                 accept=".png,.jpeg,.jpg"
                 onChange={(e) => setFile(e.target.files[0])}

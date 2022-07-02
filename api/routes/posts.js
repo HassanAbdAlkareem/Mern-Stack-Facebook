@@ -3,7 +3,6 @@ const Post = require("../models/Post");
 const User = require("../models/User");
 
 //create a post
-
 router.post("/", async (req, res) => {
   const newPost = new Post(req.body);
   try {
@@ -13,8 +12,8 @@ router.post("/", async (req, res) => {
     res.status(500).json(err);
   }
 });
-//update a post
 
+//update a post
 router.put("/:id", async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
@@ -72,13 +71,13 @@ router.get("/:id", async (req, res) => {
 });
 
 //get timeline posts
-
 router.get("/timeline/:userId", async (req, res) => {
   try {
     const currentUser = await User.findById(req.params.userId);
     const userPosts = await Post.find({ userId: currentUser._id });
+    console.log(currentUser);
     const friendPosts = await Promise.all(
-      currentUser.followings.map((friendId) => {
+      currentUser.friends.map((friendId) => {
         return Post.find({ userId: friendId });
       })
     );
@@ -89,7 +88,6 @@ router.get("/timeline/:userId", async (req, res) => {
 });
 
 //get user's all posts
-
 router.get("/profile/:username", async (req, res) => {
   try {
     const user = await User.findOne({ username: req.params.username });

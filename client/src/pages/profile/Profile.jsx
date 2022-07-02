@@ -1,5 +1,4 @@
 import "./profile.css";
-import Topbar from "../../components/topbar/Topbar";
 import Sidebar from "../../components/sidebar/Sidebar";
 import Feed from "../../components/feed/Feed";
 import Rightbar from "../../components/rightbar/Rightbar";
@@ -8,25 +7,25 @@ import axios from "axios";
 import { useParams } from "react-router";
 import { AuthContext } from "../../context/AuthContext";
 import Register from "../register/Register";
+import { ArrowBack } from "@material-ui/icons";
+import { Link } from "react-router-dom";
 
 export default function Profile() {
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
   const [user, setUser] = useState({});
   const username = useParams().username;
-  const { editProfile } = useContext(AuthContext);
+  const { editProfile, URL_API } = useContext(AuthContext);
 
   useEffect(() => {
     const fetchUser = async () => {
-      const res = await axios.get(`/users?username=${username}`);
+      const res = await axios.get(`${URL_API}/users?username=${username}`);
       setUser(res.data);
     };
     fetchUser();
   }, [username]);
-  console.log(PF);
 
   return (
     <>
-      <Topbar />
       <div className="profile">
         <Sidebar />
         <div className="profileRight">
@@ -37,6 +36,10 @@ export default function Profile() {
                 src={PF + "/backgroundDark.jpg"}
                 alt=""
               />
+              <Link className="back-home" to={"/"}>
+                <ArrowBack className="icon" />
+                Home
+              </Link>
               <div className="circleDiv">
                 <span>{username.substring(0, 1)}</span>
               </div>

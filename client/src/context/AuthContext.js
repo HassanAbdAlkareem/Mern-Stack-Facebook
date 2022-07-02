@@ -10,6 +10,7 @@ const INITIAL_STATE = {
 export const AuthContext = createContext(INITIAL_STATE);
 
 export const AuthContextProvider = ({ children }) => {
+  const URL_API = "https://facebook-small.herokuapp.com/api";
   const [state, dispatch] = useReducer(AuthReducer, INITIAL_STATE);
   const [editProfile, setEditProfile] = useState(false);
   const [searchUser, setSearchUser] = useState(null);
@@ -30,6 +31,7 @@ export const AuthContextProvider = ({ children }) => {
   return (
     <AuthContext.Provider
       value={{
+        URL_API,
         user: state.user,
         isFetching: state.isFetching,
         error: state.error,

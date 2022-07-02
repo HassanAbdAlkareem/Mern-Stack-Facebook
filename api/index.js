@@ -5,6 +5,8 @@ const dotenv = require("dotenv");
 const helmet = require("helmet");
 const morgan = require("morgan");
 const multer = require("multer");
+const cors = require("cors");
+const path = require("path");
 
 // routes
 const userRoute = require("./routes/users");
@@ -12,10 +14,16 @@ const authRoute = require("./routes/auth");
 const postRoute = require("./routes/posts");
 const conversationRoute = require("./routes/conversations");
 const messageRoute = require("./routes/messages");
-const path = require("path");
 
+//middleware
+app.use("/images", express.static(path.join(__dirname, "images")));
+app.use(express.json());
 dotenv.config();
+app.use(helmet());
+app.use(morgan("common"));
+app.use(cors());
 
+// connect to db
 mongoose.connect(
   process.env.MONGO_URL,
   { useNewUrlParser: true, useUnifiedTopology: true },
@@ -23,12 +31,6 @@ mongoose.connect(
     console.log("Connected to MongoDB");
   }
 );
-app.use("/images", express.static(path.join(__dirname, "images")));
-
-//middleware
-app.use(express.json());
-app.use(helmet());
-app.use(morgan("common"));
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -54,6 +56,6 @@ app.use("/api/posts", postRoute);
 app.use("/api/conversations", conversationRoute);
 app.use("/api/messages", messageRoute);
 
-app.listen(8800, () => {
-  console.log("Backend server is running!");
-});
+// server
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log("server is running on port " + PORT));
