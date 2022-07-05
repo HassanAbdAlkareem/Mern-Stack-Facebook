@@ -1,31 +1,41 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { AuthContext } from "../../context/AuthContext";
 import "./chatOnline.css";
 
-export default function ChatOnline({ onlineUsers, currentId, setCurrentChat }) {
+export default function ChatOnline({
+  onlineUsers,
+  currentId,
+  setCurrentChat,
+  currentChat,
+}) {
   const [friends, setFriends] = useState([]);
   const [onlineFriends, setOnlineFriends] = useState([]);
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
+  const { URL_API } = useContext(AuthContext);
 
   useEffect(() => {
     const getFriends = async () => {
-      const res = await axios.get("/users/friends/" + currentId);
+      const res = await axios.get(URL_API + "/users/friends/" + currentId);
       setFriends(res.data);
     };
-
     getFriends();
   }, [currentId]);
-
-  useEffect(() => {
-    setOnlineFriends(friends.filter((f) => onlineUsers.includes(f._id)));
-  }, [friends, onlineUsers]);
 
   const handleClick = async (user) => {
     try {
       const res = await axios.get(
-        `/conversations/find/${currentId}/${user._id}`
+        URL_API + `/conversations/find/${currentId}/${user._id}`
       );
-      setCurrentChat(res.data);
+      if (res.data !== null) {
+        setCurrentChat(res.data);
+      } else {
+        const res = await axios.post(URL_API + "/conversations", {
+          senderId: currentId,
+          receiverId: user._id,
+        });
+        setCurrentChat(res.data);
+      }
     } catch (err) {
       console.log(err);
     }
@@ -33,21 +43,17 @@ export default function ChatOnline({ onlineUsers, currentId, setCurrentChat }) {
 
   return (
     <div className="chatOnline">
-      {onlineFriends.map((o) => (
-        <div className="chatOnlineFriend" onClick={() => handleClick(o)}>
+      <h4 className="title">Your Friends</h4>
+      {friends.map((f, i) => (
+        <div
+          className="chatOnlineFriend"
+          key={i}
+          onClick={() => handleClick(f)}
+        >
           <div className="chatOnlineImgContainer">
-            <img
-              className="chatOnlineImg"
-              src={
-                o?.profilePicture
-                  ? PF + o.profilePicture
-                  : PF + "person/noAvatar.png"
-              }
-              alt=""
-            />
-            <div className="chatOnlineBadge"></div>
+            <img className="chatOnlineImg" src={PF + "/employee.png"} alt="" />
           </div>
-          <span className="chatOnlineName">{o?.username}</span>
+          <span className="chatOnlineName">{f?.username}</span>
         </div>
       ))}
     </div>

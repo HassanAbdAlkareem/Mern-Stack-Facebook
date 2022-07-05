@@ -33,21 +33,14 @@ export default function Topbar() {
           >
             Logout
           </span>
-          <span className="topbarLink">Timeline</span>
         </div>
         <div className="topbarIcons">
-          <div className="topbarIconItem">
-            <Person />
-            <span className="topbarIconBadge">1</span>
-          </div>
-          <div className="topbarIconItem">
-            <Chat />
-            <span className="topbarIconBadge">2</span>
-          </div>
-          <div className="topbarIconItem">
-            <Notifications />
-            <span className="topbarIconBadge">1</span>
-          </div>
+          <Link to={"/messenger"} style={{ color: "inherit" }}>
+            <div className="topbarIconItem">
+              <Chat />
+              <span className="topbarIconBadge"></span>
+            </div>
+          </Link>
         </div>
         <Link to={`/profile/${user.username}`}>
           <img src={PF + "/employee.png"} alt="" className="topbarImg" />

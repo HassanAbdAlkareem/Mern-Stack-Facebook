@@ -17,7 +17,7 @@ export default function Messenger() {
   const [arrivalMessage, setArrivalMessage] = useState(null);
   const [onlineUsers, setOnlineUsers] = useState([]);
   const socket = useRef();
-  const { user } = useContext(AuthContext);
+  const { user, URL_API } = useContext(AuthContext);
   const scrollRef = useRef();
 
   useEffect(() => {
@@ -41,7 +41,7 @@ export default function Messenger() {
     socket.current.emit("addUser", user._id);
     socket.current.on("getUsers", (users) => {
       setOnlineUsers(
-        user.followings.filter((f) => users.some((u) => u.userId === f))
+        user.friends.filter((f) => users.some((u) => u.userId === f))
       );
     });
   }, [user]);
@@ -49,7 +49,7 @@ export default function Messenger() {
   useEffect(() => {
     const getConversations = async () => {
       try {
-        const res = await axios.get("/conversations/" + user._id);
+        const res = await axios.get(URL_API + "/conversations/" + user._id);
         setConversations(res.data);
       } catch (err) {
         console.log(err);
@@ -61,7 +61,7 @@ export default function Messenger() {
   useEffect(() => {
     const getMessages = async () => {
       try {
-        const res = await axios.get("/messages/" + currentChat?._id);
+        const res = await axios.get(URL_API + "/messages/" + currentChat?._id);
         setMessages(res.data);
       } catch (err) {
         console.log(err);
@@ -84,14 +84,18 @@ export default function Messenger() {
 
     socket.current.emit("sendMessage", {
       senderId: user._id,
-      receiverId,
+      receiverId: receiverId,
       text: newMessage,
     });
 
     try {
-      const res = await axios.post("/messages", message);
-      setMessages([...messages, res.data]);
-      setNewMessage("");
+      if (newMessage.length === 0) {
+        alert("you can not send empty message");
+      } else {
+        const res = await axios.post(URL_API + "/messages", message);
+        setMessages([...messages, res.data]);
+        setNewMessage("");
+      }
     } catch (err) {
       console.log(err);
     }
@@ -107,10 +111,9 @@ export default function Messenger() {
       <div className="messenger">
         <div className="chatMenu">
           <div className="chatMenuWrapper">
-            <input placeholder="Search for friends" className="chatMenuInput" />
-            {conversations.map((c) => (
-              <div onClick={() => setCurrentChat(c)}>
-                <Conversation conversation={c} currentUser={user} />
+            {conversations.map((c, i) => (
+              <div key={i} onClick={() => setCurrentChat(c)}>
+                <Conversation conversation={c} i={i} currentUser={user} />
               </div>
             ))}
           </div>
@@ -120,8 +123,8 @@ export default function Messenger() {
             {currentChat ? (
               <React.Fragment>
                 <div className="chatBoxTop">
-                  {messages.map((m) => (
-                    <div ref={scrollRef}>
+                  {messages.map((m, i) => (
+                    <div ref={scrollRef} key={i}>
                       <Message message={m} own={m.sender === user._id} />
                     </div>
                   ))}
@@ -151,6 +154,7 @@ export default function Messenger() {
               onlineUsers={onlineUsers}
               currentId={user._id}
               setCurrentChat={setCurrentChat}
+              currentChat={currentChat}
             />
           </div>
         </div>

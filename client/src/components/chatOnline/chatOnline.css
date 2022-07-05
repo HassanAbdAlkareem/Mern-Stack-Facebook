@@ -3,7 +3,7 @@
   align-items: center;
   font-weight: 500;
   cursor: pointer;
-  margin-top: 10px;
+  margin-top: 20px;
 }
 
 .chatOnlineImgContainer {
@@ -29,8 +29,3 @@
   right: 2px;
 }
 
-@media screen and (max-width: 768px) {
-  .chatOnlineName {
-    display: none;
-  }
-}

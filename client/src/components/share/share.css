@@ -90,8 +90,12 @@
 
 .shareCancelImg{
   position: absolute;
-  top: 0;
-  right: 20px;
+  top: 3px;
+  right: 21px;
+  padding: 2px;
+  box-shadow: 0px 0px 12px 4px rgba(0, 0, 0, 70%);
+  color: black;
+border-radius: 50%;
   cursor: pointer;
   opacity: 0.7;
 }

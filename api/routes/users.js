@@ -72,14 +72,14 @@ router.get("/friends/:userId", async (req, res) => {
   try {
     const user = await User.findById(req.params.userId);
     const friends = await Promise.all(
-      user.followings.map((friendId) => {
+      user.friends.map((friendId) => {
         return User.findById(friendId);
       })
     );
     let friendList = [];
     friends.map((friend) => {
-      const { _id, username, profilePicture } = friend;
-      friendList.push({ _id, username, profilePicture });
+      const { _id, username, bio } = friend;
+      friendList.push({ _id, username, bio });
     });
     res.status(200).json(friendList);
   } catch (err) {
@@ -103,6 +103,7 @@ router.put("/:id/follow", async (req, res) => {
     try {
       const user = await User.findById(req.params.id);
       if (!user.friends.includes(req.body.userId)) {
+        console.log("follow");
         await user.updateOne({ $push: { friends: req.body.userId } });
         const updateUser = await User.findByIdAndUpdate(
           req.body.userId,
@@ -130,6 +131,7 @@ router.put("/:id/unfollow", async (req, res) => {
     try {
       const user = await User.findById(req.params.id);
       if (user.friends.includes(req.body.userId)) {
+        console.log("unfollow");
         const updateUser = await User.findByIdAndUpdate(
           req.body.userId,
           {
@@ -137,7 +139,6 @@ router.put("/:id/unfollow", async (req, res) => {
           },
           { new: true }
         );
-        res.status(200).json(updateUser);
         await user.updateOne({ $pull: { friends: req.body.userId } });
         res.status(200).json(updateUser);
       } else {

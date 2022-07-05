@@ -49,7 +49,8 @@ export default function Register() {
           </h3>
           {!editProfile && (
             <span className="loginDesc">
-              Connect with friends and the world around you on Lamasocial.
+              Connect with friends and the world around you on Connecting
+              People.
             </span>
           )}
         </div>
