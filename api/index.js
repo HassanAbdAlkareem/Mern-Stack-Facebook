@@ -26,7 +26,7 @@ const messageRoute = require("./routes/messages");
 
 // connect to db
 mongoose.connect(
-  "mongodb+srv://hassan:hassan1234@hassan.kb22s.mongodb.net/?retryWrites=true&w=majority",
+  process.env.URL_MONOG,
   { useNewUrlParser: true, useUnifiedTopology: true },
   () => {
     console.log("Connected to MongoDB");
