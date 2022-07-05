@@ -49,7 +49,7 @@ export default function Profile() {
               <span className="profileInfoDesc">{user.bio}</span>
             </div>
           </div>
-          <div style={editProfile ? { display: "block" } : { display: "flex" }}>
+          <div className={editProfile ? "editProfile" : "normalProfile"}>
             {editProfile ? (
               <Register />
             ) : (

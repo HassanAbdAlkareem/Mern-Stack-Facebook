@@ -93,7 +93,6 @@ const ProfileRightbar = ({ user }) => {
           <span className="rightbarInfoValue">{user.birthday}</span>
         </div>
       </div>
-      <h4 className="rightbarTitle">User friends</h4>
       <div className="rightbarFollowings">
         {friends.map((friend) => (
           <Link

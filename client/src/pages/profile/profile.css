@@ -75,3 +75,17 @@
     font-size: 1.2rem;
     margin-right: 4px;
 }
+
+.normalProfile {
+    display: flex;
+}
+
+@media (max-width:1000px) {
+    .normalProfile {
+        flex-direction: column;
+    }
+    .rightbarWrapper {
+        padding: 1rem;
+        margin: 1rem 0;
+    }
+}

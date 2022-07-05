@@ -28,7 +28,8 @@
 }
 
 .loginBox{
-  padding: 1.5rem ;
+  margin: 0 1rem;
+  padding: 1.2rem ;
     border-radius: 10px;
     display: flex;
     flex-direction: column;
